@@ -1,4 +1,4 @@
-# OASIS: Open Agent Safety Inspection System
+# OASIS: A Comprehensive Framework for Evaluating AI Agent Safety and Security in Multi-Turn Interactions
 
 ## Overview
 
