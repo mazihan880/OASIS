@@ -2,7 +2,7 @@
 
 ## Overview
 
-OASIS (Open Agent Safety Inspection System) is a comprehensive evaluation framework designed to assess the safety and security of AI agents across multiple dimensions. This system provides automated testing capabilities with configurable parameters for different test levels, difficulties, and execution modes, supporting various AI models and deployment scenarios.
+OASIS is a comprehensive evaluation framework designed to assess the safety and security of AI agents across multiple dimensions. This system provides automated testing capabilities with configurable parameters for different test levels, difficulties, and execution modes, supporting various AI models and deployment scenarios.
 
 ## Key Features
 
@@ -305,31 +305,3 @@ Automatically resume interrupted test sessions:
 - Configure `--temperature` based on test requirements
 - Enable `--thinking` mode only when necessary
 - Monitor system resources during execution
-
-## Contributing
-
-We welcome contributions to improve OASIS! Please see our contributing guidelines and submit pull requests to the main repository.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Citation
-
-If you use OASIS in your research, please cite:
-```bibtex
-@software{oasis2024,
-  title={OASIS: Open Agent Safety Inspection System},
-  author={OASIS Contributors},
-  year={2024},
-  url={https://github.com/open-compass/OASIS}
-}
-```
-
-## Support
-
-For questions, issues, or contributions:
-- Create an issue on GitHub
-- Review documentation in the `docs/` directory
-- Check existing test examples in the repository
-
