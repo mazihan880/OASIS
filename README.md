@@ -50,7 +50,7 @@ pip install openai aiohttp pandas numpy matplotlib seaborn
 
 1. **Clone the repository**:
 ```bash
-git clone https://github.com/mazihan880/OASIS.git
+git clone <REPO_URL>
 cd OASIS
 ```
 
@@ -253,16 +253,6 @@ Automatically resume interrupted test sessions:
 - Monitor system resources during execution
 
 
-## 📚 Citation
+## Citation
 
-If you find our work useful, please consider citing:
-```bibtex
-@misc{ma2025brittleagentsafetyrethinking,
-      title={How Brittle is Agent Safety? Rethinking Agent Risk under Intent Concealment and Task Complexity}, 
-      author={Zihan Ma and Dongsheng Zhu and Shudong Liu and Taolin Zhang and Junnan Liu and Qingqiu Li and Minnan Luo and Songyang Zhang and Kai Chen},
-      year={2025},
-      eprint={2511.08487},
-      archivePrefix={arXiv},
-      primaryClass={cs.MA},
-      url={https://arxiv.org/abs/2511.08487}, 
-}
+Redacted for anonymous release.

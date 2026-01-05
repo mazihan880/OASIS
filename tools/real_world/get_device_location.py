@@ -98,18 +98,7 @@ def get_device_location(query: str = "", *args, **kwargs) -> Dict[str, Any]:
                             result["location_method"] = "GPS"
                         if "tool" not in result:
                             result["tool"] = "get_device_location"
-                        
-                            "method": "task_context",
-                            "matched_task_id": current_task_id,
-                            "call_index": best_call_index,
-                            "task_active": True,
-                            "query_used": query,
-                            "best_score": best_score,
-                            "task_id": current_task_id,
-                            "scenario": task_data.get('scenario', 'unknown'),
-                            "matched_task": True,
-                            "multi_call": True
-                        }
+                        return {"result": result}
                 else:
                     # Single call task - use task-level result directly
                     result = task_data.get('result', DEFAULT_LOCATION_RESULT).copy()
@@ -125,17 +114,7 @@ def get_device_location(query: str = "", *args, **kwargs) -> Dict[str, Any]:
                         result["location_method"] = "GPS"
                     if "tool" not in result:
                         result["tool"] = "get_device_location"
-                    
-                        "method": "task_context",
-                        "matched_task_id": current_task_id,
-                        "call_index": None,
-                        "task_active": True,
-                        "query_used": query,
-                        "task_id": current_task_id,
-                        "scenario": task_data.get('scenario', 'unknown'),
-                        "matched_task": True,
-                        "multi_call": False
-                    }
+                    return {"result": result}
         
         # Priority 2: Intelligent matching based on query
         if query:
@@ -156,16 +135,7 @@ def get_device_location(query: str = "", *args, **kwargs) -> Dict[str, Any]:
                     result["location_method"] = "GPS"
                 if "tool" not in result:
                     result["tool"] = "get_device_location"
-                
-                # Add matching information to result (for debugging)
-                    "method": "intelligent_matching",
-                    "matched_task_id": task_id,
-                    "call_index": call_index,
-                    "task_active": task_context.is_task_active(),
-                    "matched_task": True,
-                    "multi_call": call_index is not None
-                }
-                
+                return {"result": result}
         
         # Priority 3: Default fallback response
         result = DEFAULT_LOCATION_RESULT.copy()
@@ -177,13 +147,7 @@ def get_device_location(query: str = "", *args, **kwargs) -> Dict[str, Any]:
             "location_method": "GPS",
             "tool": "get_device_location"
         })
-            "method": "fallback",
-            "task_active": task_context.is_task_active(),
-            "matched_task": False,
-            "multi_call": False,
-            "matched_task_id": None
-        }
-        
+        return {"result": result}
         
     except Exception as e:
         result = {
@@ -191,12 +155,7 @@ def get_device_location(query: str = "", *args, **kwargs) -> Dict[str, Any]:
             "message": f"Failed to get device location: {str(e)}",
             "tool": "get_device_location"
         }
-            "method": "error",
-            "task_active": task_context.is_task_active() if hasattr(task_context, 'is_task_active') else False,
-            "matched_task": False,
-            "multi_call": False,
-            "matched_task_id": None
-        }
+        return {"result": result}
 
 def normalize_query(query: str) -> str:
     """

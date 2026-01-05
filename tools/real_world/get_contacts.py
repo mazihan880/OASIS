@@ -108,13 +108,6 @@ def get_contacts(*args, **kwargs) -> Dict[str, Any]:
                 if 'contact_id' not in result:
                     result['contact_id'] = f"contact_{random.randint(100000, 999999)}"
                 
-                # Add debug metadata
-                    'method': 'task_context',
-                    'matched_task_id': current_task_id,
-                    'call_index': best_call_index,
-                    'best_score': best_score,
-                    'task_active': True
-                }
                 return {
                     "result": result,
                 }
@@ -128,12 +121,6 @@ def get_contacts(*args, **kwargs) -> Dict[str, Any]:
                 if 'contact_id' not in result:
                     result['contact_id'] = f"contact_{random.randint(100000, 999999)}"
                 
-                # Add debug metadata
-                    'method': 'task_context',
-                    'matched_task_id': current_task_id,
-                    'call_index': None,
-                    'task_active': True
-                }
                 return {
                     "result": result,
                 }
@@ -152,12 +139,6 @@ def get_contacts(*args, **kwargs) -> Dict[str, Any]:
         if 'contact_id' not in result:
             result['contact_id'] = f"contact_{random.randint(100000, 999999)}"
         
-        # Add debug metadata
-            'method': 'similarity_match' if task_id else 'fallback',
-            'matched_task_id': task_id,
-            'call_index': call_index,
-            'task_active': task_context.is_task_active() if hasattr(task_context, 'is_task_active') else False
-        }
         return {
             "result": result,
         }
@@ -167,10 +148,6 @@ def get_contacts(*args, **kwargs) -> Dict[str, Any]:
             "status": "error",
             "message": f"Failed to retrieve contacts: {str(e)}",
             "tool": "get_contacts"
-        }
-            'method': 'exception_fallback',
-            'error': str(e),
-            'task_active': False
         }
         return {
             "result": result,

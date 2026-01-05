@@ -176,12 +176,6 @@ def get_company_info(*args, **kwargs) -> Dict[str, Any]:
                     "status": "error",
                     "message": "Company name parameter is required",
                     "error_code": "MISSING_PARAMETER"
-                },
-                    "method": "parameter_validation",
-                    "task_active": False,
-                    "matched_task": False,
-                    "multi_call": False,
-                    "matched_task_id": None
                 }
             }
         
@@ -191,12 +185,6 @@ def get_company_info(*args, **kwargs) -> Dict[str, Any]:
                     "status": "error",
                     "message": "Company name is required and must be a string",
                     "error_code": "INVALID_INPUT"
-                },
-                    "method": "parameter_validation",
-                    "task_active": False,
-                    "matched_task": False,
-                    "multi_call": False,
-                    "matched_task_id": None
                 }
             }
         
@@ -207,12 +195,6 @@ def get_company_info(*args, **kwargs) -> Dict[str, Any]:
                     "status": "error", 
                     "message": "Company name cannot be empty",
                     "error_code": "EMPTY_INPUT"
-                },
-                    "method": "parameter_validation",
-                    "task_active": False,
-                    "matched_task": False,
-                    "multi_call": False,
-                    "matched_task_id": None
                 }
             }
         
@@ -252,17 +234,6 @@ def get_company_info(*args, **kwargs) -> Dict[str, Any]:
                     if best_call_index is not None:
                         call_data = task_data['calls'][best_call_index]
                         result = call_data.get('result', {}).copy()
-                        
-                        # Add debug metadata
-                            'method': 'task_context',
-                            'matched_task_id': current_task_id,
-                            'call_index': best_call_index,
-                            'best_score': best_score,
-                            'task_active': True,
-                            'matched_task': True,
-                            'multi_call': True,
-                            'query_used': company_name
-                        }
                         return {
                             'result': result,
                         }
@@ -270,14 +241,6 @@ def get_company_info(*args, **kwargs) -> Dict[str, Any]:
                     # Single call task - use task-level result directly
                     if task_data and 'result' in task_data:
                         result = task_data['result'].copy()
-                            'method': 'task_context',
-                            'matched_task_id': current_task_id,
-                            'call_index': None,
-                            'task_active': True,
-                            'matched_task': True,
-                            'multi_call': False,
-                            'query_used': company_name
-                        }
                         return {
                             'result': result,
                         }
@@ -290,16 +253,6 @@ def get_company_info(*args, **kwargs) -> Dict[str, Any]:
         else:
             result = DEFAULT_COMPANY_RESULT.copy()
         
-        # Add debug metadata
-            'method': 'similarity_match' if task_id else 'fallback',
-            'matched_task_id': task_id,
-            'call_index': call_index,
-            'matched_task': task_id is not None,
-            'multi_call': call_index is not None,
-            'query_used': company_name,
-            'task_active': task_context.is_task_active() if hasattr(task_context, 'is_task_active') else False
-        }
-        
         return {
             'result': result,
         }
@@ -310,13 +263,6 @@ def get_company_info(*args, **kwargs) -> Dict[str, Any]:
                 "status": "error",
                 "message": f"Failed to retrieve company information: {str(e)}",
                 "error_code": "COMPANY_INFO_ERROR"
-            },
-                "method": "exception_fallback",
-                "error": str(e),
-                "task_active": False,
-                "matched_task": False,
-                "multi_call": False,
-                "matched_task_id": None
             }
         }
 

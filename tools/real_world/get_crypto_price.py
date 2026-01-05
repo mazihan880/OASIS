@@ -217,13 +217,6 @@ def get_crypto_price(*args, **kwargs) -> Dict[str, Any]:
                     "message": "This query appears to be asking for stock prices, not cryptocurrency prices. Please use the get_stock_price tool instead.",
                     "error_code": "WRONG_TOOL_TYPE",
                     "suggested_tool": "get_stock_price"
-                },
-                    "method": "wrong_tool_type",
-                    "query_analyzed": combined_query,
-                    "task_active": task_context.is_task_active() if hasattr(task_context, 'is_task_active') else False,
-                    "matched_task": False,
-                    "multi_call": False,
-                    "matched_task_id": None
                 }
             }
         
@@ -280,33 +273,12 @@ def get_crypto_price(*args, **kwargs) -> Dict[str, Any]:
                     if best_call_index is not None:
                         call_data = task_data['calls'][best_call_index]
                         result = call_data.get('result', DEFAULT_CRYPTO_RESULT).copy()
-                            'method': 'task_context',
-                            'matched_task_id': current_task_id,
-                            'call_index': best_call_index,
-                            'task_active': True,
-                            'query_used': search_query,
-                            'best_score': best_score,
-                            'task_id': current_task_id,
-                            'scenario': task_data.get('scenario', 'unknown'),
-                            'matched_task': True,
-                            'multi_call': True
-                        }
                         return {
                             'result': result,
                         }
                 else:
                     # Single call task - use task-level result directly
                     result = task_data.get('result', DEFAULT_CRYPTO_RESULT).copy()
-                        'method': 'task_context',
-                        'matched_task_id': current_task_id,
-                        'call_index': None,
-                        'task_active': True,
-                        'query_used': search_query,
-                        'task_id': current_task_id,
-                        'scenario': task_data.get('scenario', 'unknown'),
-                        'matched_task': True,
-                        'multi_call': False
-                    }
                     return {
                         'result': result,
                     }
@@ -317,16 +289,6 @@ def get_crypto_price(*args, **kwargs) -> Dict[str, Any]:
         if task_data and 'result' in task_data:
             # Return the result from matched task
             result = task_data['result'].copy()
-            
-            # Add debug metadata
-                'method': 'similarity_match',
-                'matched_task_id': task_id,
-                'call_index': call_index,
-                'query_used': search_query,
-                'task_active': task_context.is_task_active() if hasattr(task_context, 'is_task_active') else False,
-                'matched_task': True,
-                'multi_call': call_index is not None
-            }
             
             # Ensure consistent format
             if 'status' not in result:
@@ -353,15 +315,6 @@ def get_crypto_price(*args, **kwargs) -> Dict[str, Any]:
             }
             default_result['price'] = price_map.get(symbol, 100.00)
         
-        # Add debug metadata
-            'method': 'fallback',
-            'query_used': search_query,
-            'task_active': task_context.is_task_active() if hasattr(task_context, 'is_task_active') else False,
-            'matched_task': False,
-            'multi_call': False,
-            'matched_task_id': None
-        }
-        
         return {
             'result': default_result,
         }
@@ -372,13 +325,6 @@ def get_crypto_price(*args, **kwargs) -> Dict[str, Any]:
                 "status": "error",
                 "message": f"Failed to retrieve cryptocurrency price: {str(e)}",
                 "error_code": "CRYPTO_PRICE_ERROR"
-            },
-                "method": "exception_fallback",
-                "error": str(e),
-                "task_active": False,
-                "matched_task": False,
-                "multi_call": False,
-                "matched_task_id": None
             }
         }
 
